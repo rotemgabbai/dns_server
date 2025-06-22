@@ -40,8 +40,11 @@ A DNS server written in Python that checks DNS queries against a PostgreSQL tabl
 2. Send DNS packets to port `5353` on the server.
 
     You can use `dig`, `nslookup`, or any DNS client, for example:
-    ```bash
-    dig @localhost -p 5353 example.com
+    ```python
+    from scapy.all import *
+    packet = IP(dst="127.0.0.1")/UDP(sport=RandShort(), dport=5353)/ \
+             DNS(rd=1, qd=DNSQR(qname="www.google.com", qtype="A"))
+    send(packet)
     ```
 
 ## Configuration
